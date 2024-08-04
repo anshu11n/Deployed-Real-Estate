@@ -17,5 +17,5 @@ export const shouldBeAdmin = async (req, res) => {
     }
   });
 
-  res.status(200).json({ message: "You are Authenticated" });
+  res.status(200).json({ message: "You are Admin :: Authenticated" });
 };

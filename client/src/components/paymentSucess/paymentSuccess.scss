@@ -1,0 +1,36 @@
+.payment-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Adjust height as needed */
+    background-color: #f0f0f0; /* Light background color */
+  
+    .tick-image {
+      width: 150px; /* Adjust size of the tick mark image */
+      height: 150px;
+      margin-bottom: 20px; /* Space below the tick mark image */
+    }
+  
+    .message {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #333; /* Dark text color */
+      text-align: center;
+    }
+  
+    .button {
+      background-color: #007bff; /* Blue button color */
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  
+      &:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+      }
+    }
+  }
+  

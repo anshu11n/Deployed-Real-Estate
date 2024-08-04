@@ -5,6 +5,9 @@ export const getPosts = async (req, res) => {
   const query = req.query;
 
   try {
+    // Fetch posts based on query parameters
+    const maxPrice = query.maxPrice && parseInt(query.maxPrice) === 0 ? 1000000 : parseInt(query.maxPrice);
+
     const posts = await prisma.post.findMany({
       where: {
         city: query.city || undefined,
@@ -13,19 +16,94 @@ export const getPosts = async (req, res) => {
         bedroom: parseInt(query.bedroom) || undefined,
         price: {
           gte: parseInt(query.minPrice) || undefined,
-          lte: parseInt(query.maxPrice) || undefined,
+          lte: maxPrice || undefined,
         },
       },
     });
 
-    // setTimeout(() => {
-    res.status(200).json(posts);
-    // }, 3000);
+    // Initialize authentication variables
+    const token = req.cookies?.token;
+    let isAuthenticated = false;
+    let userId = null;
+
+    // Verify JWT token if present
+    if (token) {
+      try {
+        const payload = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        isAuthenticated = true;
+        userId = payload.id;
+      } catch (err) {
+        console.error('Token verification failed:', err);
+      }
+    }
+
+    // Check and update each post with isSaved field
+    for (const post of posts) {
+      if (isAuthenticated) {
+        const saved = await prisma.savedPost.findUnique({
+          where: {
+            userId_postId: {
+              postId: post.id,
+              userId: userId,
+            },
+          },
+        });
+
+        post.isSaved = saved ? true : false;
+      } else {
+        post.isSaved = false;
+      }
+    }
+
+    // Return the updated posts
+    return res.status(200).json(posts);
+
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({ message: "Failed to get posts" });
   }
 };
+
+
+// export const getPost = async (req, res) => {
+//   const id = req.params.id;
+//   try {
+//     const post = await prisma.post.findUnique({
+//       where: { id },
+//       include: {
+//         postDetail: true,
+//         user: {
+//           select: {
+//             username: true,
+//             avatar: true,
+//           },
+//         },
+//       },
+//     });
+
+//     const token = req.cookies?.token;
+
+//     if (token) {
+//       jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, payload) => {
+//         if (!err) {
+//           const saved = await prisma.savedPost.findUnique({
+//             where: {
+//               userId_postId: {
+//                 postId: id,
+//                 userId: payload.id,
+//               },
+//             },
+//           });
+//           res.status(200).json({ ...post, isSaved: saved ? true : false });
+//         }
+//       });
+//     }
+//     res.status(200).json({ ...post, isSaved: false });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ message: "Failed to get post" });
+//   }
+// };
 
 export const getPost = async (req, res) => {
   const id = req.params.id;
@@ -56,16 +134,34 @@ export const getPost = async (req, res) => {
               },
             },
           });
-          res.status(200).json({ ...post, isSaved: saved ? true : false });
+
+          const booked = await prisma.bookedPost.findUnique({
+            where: {
+              postId: id,
+            },
+          });
+
+          let isBooked = "";
+          if(booked && booked.userId === payload.id) isBooked = "own"
+          else if(booked) isBooked = "other"
+          else isBooked = "not"
+
+          return res.status(200).json({ ...post, isSaved: saved ? true : false, isBooked });
+        } else {
+          
+          return res.status(200).json({ ...post, isSaved: false, isBooked: "not" });
         }
       });
+    } else {
+      // If no token is provided, return the post with isSaved set to false
+      return res.status(200).json({ ...post, isSaved: false });
     }
-    res.status(200).json({ ...post, isSaved: false });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Failed to get post" });
   }
 };
+
 
 export const addPost = async (req, res) => {
   const body = req.body;

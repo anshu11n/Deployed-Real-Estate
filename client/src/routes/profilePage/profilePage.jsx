@@ -5,9 +5,12 @@ import apiRequest from "../../lib/apiRequest";
 import { Await, Link, useLoaderData, useNavigate } from "react-router-dom";
 import { Suspense, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import Loader from "../../components/loader/Loader";
 
 function ProfilePage() {
   const data = useLoaderData();
+
+  // console.log(data.bookedPosts);
 
   const { updateUser, currentUser } = useContext(AuthContext);
 
@@ -51,7 +54,7 @@ function ProfilePage() {
               <button>Create New Post</button>
             </Link>
           </div>
-          <Suspense fallback={<p>Loading...</p>}>
+          <Suspense fallback={<Loader/>}>
             <Await
               resolve={data.postResponse}
               errorElement={<p>Error loading posts!</p>}
@@ -62,7 +65,7 @@ function ProfilePage() {
           <div className="title">
             <h1>Saved List</h1>
           </div>
-          <Suspense fallback={<p>Loading...</p>}>
+          <Suspense fallback={<Loader/>}>
             <Await
               resolve={data.postResponse}
               errorElement={<p>Error loading posts!</p>}
@@ -70,11 +73,22 @@ function ProfilePage() {
               {(postResponse) => <List posts={postResponse.data.savedPosts} />}
             </Await>
           </Suspense>
+          <div className="title">
+            <h1>Booked List</h1>
+          </div>
+          <Suspense fallback={<Loader/>}>
+            <Await
+              resolve={data.postResponse}
+              errorElement={<p>Error loading posts!</p>}
+            >
+              {(postResponse) => <List posts={postResponse.data.bookedPosts} />}
+            </Await>
+          </Suspense>
         </div>
       </div>
       <div className="chatContainer">
         <div className="wrapper">
-          <Suspense fallback={<p>Loading...</p>}>
+          <Suspense fallback={<Loader/>}>
             <Await
               resolve={data.chatResponse}
               errorElement={<p>Error loading chats!</p>}

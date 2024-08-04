@@ -9,6 +9,8 @@ import Register from "./routes/register/register";
 import ProfileUpdatePage from "./routes/profileUpdatePage/profileUpdatePage";
 import NewPostPage from "./routes/newPostPage/newPostPage";
 import { listPageLoader, profilePageLoader, singlePageLoader } from "./lib/loaders";
+import PaymentSuccess from "./components/paymentSucess/PaymentSuccess";
+import PaymentCancel from "./components/paymentCancel/PaymentCancel";
 
 function App() {
   const router = createBrowserRouter([
@@ -30,7 +32,7 @@ function App() {
           element: <SinglePage />,
           loader: singlePageLoader,
         },
-
+        
         {
           path: "/login",
           element: <Login />,
@@ -59,6 +61,14 @@ function App() {
           element: <NewPostPage />,
         },
       ],
+    },
+    {
+      path: "/payment-success",
+      element: <PaymentSuccess />,
+    },
+    {
+      path: "/payment-cancel",
+      element: <PaymentCancel />,
     },
   ]);
 

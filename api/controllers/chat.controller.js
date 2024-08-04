@@ -80,6 +80,7 @@ export const addChat = async (req, res) => {
         userIDs: [tokenUserId, req.body.receiverId],
       },
     });
+    // console.log("Cr");
     res.status(200).json(newChat);
   } catch (err) {
     console.log(err);
