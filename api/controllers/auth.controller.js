@@ -71,7 +71,7 @@ export const login = async (req, res) => {
         // // secure:true,
         httpOnly: false,
         secure: true,
-        sameSite: 'None,
+        sameSite: 'None',
         maxAge: age,
       })
       .status(200)
