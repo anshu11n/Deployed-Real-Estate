@@ -2,7 +2,8 @@ import { Server } from "socket.io";
 
 const io = new Server({
   cors: {
-    origin: true,
+    // origin: true,
+    origin: process.env.CLIENT_URL, credentials: true, methods: 'GET,HEAD,PATCH,PUT,POST,DELETE', allowedHeaders: 'Content-Type,Authorization'
   },
 });
 
