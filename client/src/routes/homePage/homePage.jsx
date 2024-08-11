@@ -18,11 +18,11 @@ function HomePage() {
             <br/>
             <br/>
             Test Credentials 1:
-            Username: john20
+            Username: john20,
             Pass: 123456
             <br/>
             Test Credentials 2:
-            Username: john1
+            Username: john1,
             Pass: 123456
           </p>
           <SearchBar />
