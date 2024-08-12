@@ -70,12 +70,24 @@ function SinglePage() {
     }
   };
 
+  // const handleChat = async () => {
+  //   if (!currentUser) {
+  //     navigate("/login");
+  //   }
+  //   try {
+  //     await apiRequest.post("/api/chats", { receiverId: post.userId });
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
   const handleChat = async () => {
     if (!currentUser) {
       navigate("/login");
     }
     try {
-      await apiRequest.post("/api/chats", { receiverId: post.userId });
+      await apiRequest.post("/chats", { receiverId: post.userId });
+      navigate('/profile')
     } catch (err) {
       console.log(err);
     }
