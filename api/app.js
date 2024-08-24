@@ -14,7 +14,12 @@ import bookRoute from "./routes/book.route.js"
 
 const app = express();
 
-app.use(cors({ origin: process.env.CLIENT_URL, credentials: true, methods: 'GET,HEAD,PATCH,PUT,POST,DELETE', allowedHeaders: 'Content-Type,Authorization' }));
+app.use(cors({ 
+  origin: ["http://localhost:5173", "https://deployed-real-estate.onrender.com"],
+  credentials: true, 
+  methods: 'GET,HEAD,PATCH,PUT,POST,DELETE', 
+  allowedHeaders: 'Content-Type,Authorization' 
+}));
 app.use(express.json());
 app.use(cookieParser());
 
