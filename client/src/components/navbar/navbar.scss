@@ -17,7 +17,7 @@ nav {
       scale: 1.05;
     }
 
-    z-index: 1;
+    z-index: 999;
   }
 
   .left {
@@ -114,7 +114,7 @@ nav {
 
     .menuIcon {
       display: none;
-      z-index: 999;
+      z-index: 900;
 
       img {
         width: 36px;
