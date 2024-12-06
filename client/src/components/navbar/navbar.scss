@@ -65,33 +65,84 @@ nav {
       margin: 20px;
     }
 
-    .user{
+    // .user{
+    //   display: flex;
+    //   align-items: center;
+    //   font-weight: bold;
+
+    //   img{
+    //     width: 40px;
+    //     height: 40px;
+    //     border-radius: 50%;
+    //     object-fit: cover;
+    //     margin-right: 20px;
+    //   }
+
+    //   span{
+    //     @include sm{
+    //       display: none;
+    //     }
+    //   }
+
+    //   .profile{
+    //     padding: 12px 24px;
+    //     background-color: #fece51;
+    //     cursor: pointer;
+    //     border: none;
+    //     position: relative;
+        
+    //     .notification{
+    //       position: absolute;
+    //       top: -8px;
+    //       right: -8px;
+    //       background-color: red;
+    //       color: white;
+    //       border-radius: 50%;
+    //       width: 26px;
+    //       height: 26px;
+    //       display: flex;
+    //       align-items: center;
+    //       justify-content: center;
+    //     }
+
+    //   }
+    // }
+
+    .user {
       display: flex;
       align-items: center;
       font-weight: bold;
-
-      img{
+    
+      img {
         width: 40px;
         height: 40px;
         border-radius: 50%;
         object-fit: cover;
         margin-right: 20px;
       }
-
-      span{
-        @include sm{
+    
+      span {
+        @include sm {
           display: none;
         }
       }
-
-      .profile{
+    
+      .profile {
+        position: relative;
         padding: 12px 24px;
         background-color: #fece51;
         cursor: pointer;
         border: none;
-        position: relative;
-        
-        .notification{
+        display: flex; /* Ensure the content inside is aligned */
+        align-items: center; /* Center align */
+        justify-content: center; /* Center align */
+        z-index: 1; /* Prevent any potential overlapping issues */
+    
+        &:hover {
+          scale: 1.05; /* Add a slight hover effect */
+        }
+    
+        .notification {
           position: absolute;
           top: -8px;
           right: -8px;
@@ -104,9 +155,9 @@ nav {
           align-items: center;
           justify-content: center;
         }
-
       }
     }
+    
 
     .register {
       background-color: #fece51;
